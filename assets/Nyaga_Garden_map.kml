@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+  <name>Nyaga Garden Area</name>
+  <description>Nyaga Garden area polygon | Area: 0.5109 ha</description>
+  <Style id="poly_style">
+    <LineStyle><color>ff0000ff</color><width>2</width></LineStyle>
+    <PolyStyle><color>400000ff</color></PolyStyle>
+  </Style>
+  <Placemark>
+    <name>Nyaga Garden Area</name>
+    <description>Nyaga Garden area polygon
+Area: 0.5109 ha
+Source: Nyaga_Garden_map.kml
+CRS: WGS84 (EPSG:4326)</description>
+    <styleUrl>#poly_style</styleUrl>
+    <Polygon>
+      <extrude>0</extrude>
+      <altitudeMode>clampToGround</altitudeMode>
+      <outerBoundaryIs>
+        <LinearRing>
+          <coordinates>
+            37.49937807453734,-0.4205897495673012,0
+            37.4998964494847,-0.4204914628949151,0
+            37.49969119787278,-0.4196957133894243,0
+            37.49921637668207,-0.4197822721559831,0
+            37.49937807453734,-0.4205897495673012,0
+          </coordinates>
+        </LinearRing>
+      </outerBoundaryIs>
+    </Polygon>
+  </Placemark>
+</Document>
+</kml>
