@@ -1,1514 +1,203 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rustic Garden – Kavutiri, Embu</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-
-<style>
-:root {
-  --soil:   #0d1a12;
-  --deep:   #091410;
-  --bark:   #1c2e1e;
-  --moss:   #2a4230;
-  --clay:   #c26a2d;
-  --amber:  #d4a24e;
-  --sage:   #7aad7c;
-  --aqua:   #3bc8c0;
-  --sky:    #4ab4e0;
-  --dry:    #8fa89b;
-  --paper:  #f2ede3;
-  --cream:  #e8e0d0;
-  --ink:    #1a2e1f;
-}
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-html { scroll-behavior: smooth; }
-
-body {
-  font-family: 'Lora', serif;
-  background: var(--deep);
-  color: var(--cream);
-  overflow-x: hidden;
-}
-
-/* ─── SCROLLBAR ─── */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--soil); }
-::-webkit-scrollbar-thumb { background: var(--moss); border-radius: 3px; }
-
-/* ─── NOISE OVERLAY ─── */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 1000;
-  opacity: 0.4;
-}
-
-/* ─── NAV ─── */
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 900;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 18px 48px;
-  background: linear-gradient(to bottom, rgba(9,20,16,0.95), transparent);
-  backdrop-filter: blur(4px);
-}
-
-.nav-brand {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.1rem;
-  letter-spacing: 2px;
-  color: var(--sage);
-  text-transform: uppercase;
-}
-
-.nav-links {
-  display: flex;
-  gap: 32px;
-  list-style: none;
-}
-
-.nav-links a {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.7rem;
-  color: var(--dry);
-  text-decoration: none;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  transition: color 0.3s;
-}
-
-.nav-links a:hover { color: var(--aqua); }
-
-/* ─── HERO ─── */
-#hero {
-  min-height: 100vh;
-  position: relative;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  padding: 100px 48px 80px;
-}
-
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 60% 50% at 80% 40%, rgba(59,200,192,0.08) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 60% at 20% 70%, rgba(74,180,224,0.06) 0%, transparent 60%),
-    radial-gradient(ellipse 80% 40% at 50% 100%, rgba(42,66,48,0.4) 0%, transparent 60%),
-    var(--deep);
-}
-
-/* animated grid lines */
-.hero-grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(59,200,192,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(59,200,192,0.04) 1px, transparent 1px);
-  background-size: 80px 80px;
-  animation: gridDrift 40s linear infinite;
-}
-
-@keyframes gridDrift {
-  from { transform: translateY(0); }
-  to   { transform: translateY(80px); }
-}
-
-.hero-content {
-  position: relative;
-  z-index: 2;
-  max-width: 700px;
-}
-
-.hero-tag {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.68rem;
-  color: var(--aqua);
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  margin-bottom: 20px;
-  opacity: 0;
-  animation: fadeUp 0.8s ease 0.2s forwards;
-}
-
-.hero-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(3.5rem, 8vw, 6.5rem);
-  line-height: 0.95;
-  font-weight: 900;
-  color: var(--paper);
-  margin-bottom: 10px;
-  opacity: 0;
-  animation: fadeUp 0.8s ease 0.4s forwards;
-}
-
-.hero-title em {
-  font-style: italic;
-  color: var(--sage);
-}
-
-.hero-subtitle {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.78rem;
-  color: var(--dry);
-  letter-spacing: 2px;
-  margin-bottom: 32px;
-  opacity: 0;
-  animation: fadeUp 0.8s ease 0.55s forwards;
-}
-
-.hero-desc {
-  font-size: 1.05rem;
-  line-height: 1.75;
-  color: var(--cream);
-  opacity: 0.85;
-  max-width: 520px;
-  margin-bottom: 40px;
-  opacity: 0;
-  animation: fadeUp 0.8s ease 0.7s forwards;
-}
-
-.hero-coords {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  opacity: 0;
-  animation: fadeUp 0.8s ease 0.85s forwards;
-}
-
-.coord-box {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.75rem;
-  color: var(--aqua);
-  border: 1px solid rgba(59,200,192,0.3);
-  padding: 10px 18px;
-  border-radius: 3px;
-  background: rgba(59,200,192,0.05);
-  letter-spacing: 1px;
-}
-
-.map-links {
-  display: flex;
-  gap: 14px;
-}
-
-.map-link {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.65rem;
-  color: var(--clay);
-  text-decoration: none;
-  border-bottom: 1px solid var(--clay);
-  padding-bottom: 2px;
-  letter-spacing: 1px;
-  transition: color 0.3s, border-color 0.3s;
-}
-
-.map-link:hover { color: var(--amber); border-color: var(--amber); }
-
-/* satellite orb */
-.hero-orb {
-  position: absolute;
-  right: 6%;
-  top: 50%;
-  transform: translateY(-50%);
-  width: clamp(260px, 35vw, 480px);
-  aspect-ratio: 1;
-  opacity: 0;
-  animation: fadeIn 1.2s ease 1s forwards;
-}
-
-.orb-ring {
-  position: absolute;
-  border-radius: 50%;
-  border: 1px solid rgba(59,200,192,0.15);
-}
-
-.orb-ring:nth-child(1) { inset: 0; animation: spin 60s linear infinite; }
-.orb-ring:nth-child(2) { inset: 10%; animation: spin 40s linear infinite reverse; border-color: rgba(74,180,224,0.1); }
-.orb-ring:nth-child(3) { inset: 20%; animation: spin 25s linear infinite; border-color: rgba(194,106,45,0.1); }
-
-@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-.orb-core {
-  position: absolute;
-  inset: 28%;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%,
-    rgba(59,200,192,0.25),
-    rgba(42,66,48,0.6) 50%,
-    rgba(9,20,16,0.9));
-  border: 1px solid rgba(59,200,192,0.3);
-  box-shadow:
-    0 0 60px rgba(59,200,192,0.1),
-    inset 0 0 40px rgba(59,200,192,0.05);
-}
-
-.orb-dot {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  background: var(--clay);
-  border-radius: 50%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 0 12px var(--clay);
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-  50% { opacity: 0.5; transform: translate(-50%, -50%) scale(1.4); }
-}
-
-.orb-label {
-  position: absolute;
-  bottom: -40px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: 'Space Mono', monospace;
-  font-size: 0.6rem;
-  color: var(--dry);
-  letter-spacing: 2px;
-  white-space: nowrap;
-  text-align: center;
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-/* ─── SCROLL INDICATOR ─── */
-.scroll-hint {
-  position: absolute;
-  bottom: 32px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  opacity: 0.45;
-  animation: bounce 2s ease-in-out infinite;
-}
-
-@keyframes bounce {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(8px); }
-}
-
-.scroll-hint span {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.58rem;
-  letter-spacing: 2px;
-  color: var(--dry);
-}
-
-.scroll-arrow {
-  width: 1px;
-  height: 40px;
-  background: linear-gradient(to bottom, var(--dry), transparent);
-}
-
-/* ─── SECTION SHARED ─── */
-section {
-  position: relative;
-  padding: 100px 0;
-}
-
-.section-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 48px;
-}
-
-.section-tag {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.65rem;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.section-tag::after {
-  content: '';
-  flex: 1;
-  max-width: 60px;
-  height: 1px;
-  background: currentColor;
-  opacity: 0.4;
-}
-
-.section-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2rem, 4vw, 3.2rem);
-  font-weight: 700;
-  line-height: 1.15;
-  margin-bottom: 24px;
-}
-
-.section-title em {
-  font-style: italic;
-  color: var(--sage);
-}
-
-.lead {
-  font-size: 1.08rem;
-  line-height: 1.8;
-  max-width: 620px;
-  opacity: 0.85;
-  margin-bottom: 56px;
-}
-
-/* ─── DIVIDER ─── */
-.divider {
-  height: 1px;
-  background: linear-gradient(to right, transparent, rgba(59,200,192,0.2), transparent);
-  margin: 0 48px;
-}
-
-/* ─── DATA SECTION ─── */
-#data {
-  background: linear-gradient(to bottom, var(--deep), var(--soil));
-}
-
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 2px;
-  border: 1px solid rgba(59,200,192,0.12);
-  border-radius: 4px;
-  overflow: hidden;
-  margin-bottom: 60px;
-}
-
-.stat-card {
-  background: rgba(42,66,48,0.2);
-  padding: 36px 32px;
-  border-right: 1px solid rgba(59,200,192,0.08);
-  transition: background 0.3s;
-}
-
-.stat-card:hover { background: rgba(42,66,48,0.35); }
-
-.stat-label {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.62rem;
-  color: var(--dry);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 14px;
-}
-
-.stat-value {
-  font-family: 'Playfair Display', serif;
-  font-size: 2.2rem;
-  font-weight: 900;
-  color: var(--aqua);
-  line-height: 1;
-  margin-bottom: 8px;
-}
-
-.stat-unit {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.7rem;
-  color: var(--dry);
-}
-
-.stat-note {
-  margin-top: 12px;
-  font-size: 0.82rem;
-  line-height: 1.5;
-  color: var(--cream);
-  opacity: 0.65;
-}
-
-/* depletion bar */
-.depletion-section {
-  background: rgba(28, 46, 30, 0.3);
-  border: 1px solid rgba(194,106,45,0.2);
-  border-radius: 4px;
-  padding: 40px 40px 36px;
-  margin-bottom: 40px;
-}
-
-.depletion-title {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.65rem;
-  color: var(--clay);
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  margin-bottom: 24px;
-}
-
-.depletion-label {
-  display: flex;
-  justify-content: space-between;
-  font-family: 'Space Mono', monospace;
-  font-size: 0.65rem;
-  color: var(--dry);
-  margin-bottom: 8px;
-}
-
-.bar-wrap {
-  height: 10px;
-  background: rgba(255,255,255,0.07);
-  border-radius: 5px;
-  overflow: hidden;
-  margin-bottom: 20px;
-}
-
-.bar-fill {
-  height: 100%;
-  border-radius: 5px;
-  animation: fillBar 1.8s ease 0.5s both;
-  transform-origin: left;
-}
-
-@keyframes fillBar {
-  from { width: 0 !important; }
-}
-
-.bar-recharge  { background: var(--sage); width: 9%; }
-.bar-pump      { background: var(--clay); width: 73%; }
-.bar-depletion { background: linear-gradient(to right, var(--sky), var(--aqua)); width: 100%; }
-
-.bar-legend {
-  display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
-  margin-top: 20px;
-}
-
-.legend-dot {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  margin-right: 6px;
-}
-
-.legend-item {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.62rem;
-  color: var(--dry);
-  display: flex;
-  align-items: center;
-}
-
-/* ─── UNDERGROUND SECTION ─── */
-#underground {
-  background: linear-gradient(160deg, var(--soil) 0%, #0a1d14 100%);
-}
-
-.two-col {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
-  align-items: start;
-}
-
-.sponge-diagram {
-  position: relative;
-  aspect-ratio: 0.9;
-  background: rgba(28,46,30,0.4);
-  border: 1px solid rgba(59,200,192,0.15);
-  border-radius: 4px;
-  overflow: hidden;
-  padding: 28px;
-}
-
-.layer {
-  width: 100%;
-  padding: 14px 16px;
-  font-family: 'Space Mono', monospace;
-  font-size: 0.62rem;
-  letter-spacing: 1.5px;
-  margin-bottom: 3px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border-radius: 2px;
-}
-
-.layer-sky     { background: rgba(74,180,224,0.12); color: var(--sky); }
-.layer-surface { background: rgba(194,106,45,0.15); color: var(--clay); }
-.layer-soil    { background: rgba(122,173,124,0.12); color: var(--sage); }
-.layer-rock    { background: rgba(143,168,155,0.1); color: var(--dry); }
-.layer-aquifer { background: rgba(59,200,192,0.15); color: var(--aqua); border: 1px solid rgba(59,200,192,0.2); }
-.layer-bedrock { background: rgba(26,46,31,0.5); color: rgba(143,168,155,0.5); }
-
-.layer-icon { font-size: 1rem; }
-
-.layer-label { font-size: 0.6rem; opacity: 0.7; margin-left: auto; }
-
-.water-level-bar {
-  margin: 20px 0 8px;
-  position: relative;
-  height: 3px;
-  background: rgba(255,255,255,0.08);
-  border-radius: 2px;
-}
-
-.water-level-fill {
-  position: absolute;
-  left: 0; top: 0;
-  height: 100%;
-  border-radius: 2px;
-  background: linear-gradient(to right, var(--aqua), var(--sky));
-  animation: fillBar 2s ease 0.8s both;
-}
-
-.drop-indicator {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px;
-  background: rgba(194,106,45,0.1);
-  border-left: 3px solid var(--clay);
-  border-radius: 0 3px 3px 0;
-  margin-top: 20px;
-}
-
-.drop-number {
-  font-family: 'Playfair Display', serif;
-  font-size: 2rem;
-  font-weight: 900;
-  color: var(--clay);
-}
-
-.drop-text {
-  font-size: 0.8rem;
-  line-height: 1.4;
-  color: var(--cream);
-  opacity: 0.8;
-}
-
-.prose-block p {
-  font-size: 0.98rem;
-  line-height: 1.8;
-  color: var(--cream);
-  opacity: 0.82;
-  margin-bottom: 20px;
-}
-
-.prose-block strong {
-  color: var(--paper);
-  font-weight: 500;
-  opacity: 1;
-}
-
-.callout {
-  background: rgba(42,66,48,0.3);
-  border: 1px solid rgba(122,173,124,0.25);
-  border-radius: 3px;
-  padding: 24px;
-  margin-top: 28px;
-}
-
-.callout-title {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.6rem;
-  color: var(--sage);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-}
-
-.callout p {
-  font-size: 0.88rem;
-  line-height: 1.65;
-  opacity: 0.8;
-  margin: 0;
-}
-
-/* ─── SATELLITE SECTION ─── */
-#satellite {
-  background: linear-gradient(180deg, #0a1d14 0%, var(--deep) 100%);
-}
-
-.timeline {
-  position: relative;
-  padding-left: 40px;
-}
-
-.timeline::before {
-  content: '';
-  position: absolute;
-  left: 12px;
-  top: 0; bottom: 0;
-  width: 1px;
-  background: linear-gradient(to bottom, var(--aqua), transparent);
-}
-
-.timeline-item {
-  position: relative;
-  padding: 0 0 48px 32px;
-}
-
-.timeline-item::before {
-  content: '';
-  position: absolute;
-  left: -8px;
-  top: 8px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--aqua);
-  box-shadow: 0 0 10px var(--aqua);
-}
-
-.timeline-date {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.62rem;
-  color: var(--aqua);
-  letter-spacing: 2px;
-  margin-bottom: 8px;
-}
-
-.timeline-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--paper);
-  margin-bottom: 10px;
-}
-
-.timeline-body {
-  font-size: 0.9rem;
-  line-height: 1.75;
-  color: var(--cream);
-  opacity: 0.8;
-  max-width: 560px;
-}
-
-.ndmi-visual {
-  margin-top: 16px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 14px 18px;
-  background: rgba(59,200,192,0.06);
-  border: 1px solid rgba(59,200,192,0.15);
-  border-radius: 3px;
-  max-width: 440px;
-}
-
-.ndmi-bar-wrap {
-  flex: 1;
-  height: 6px;
-  background: rgba(255,255,255,0.08);
-  border-radius: 3px;
-  overflow: hidden;
-}
-
-.ndmi-fill {
-  height: 100%;
-  border-radius: 3px;
-}
-
-.ndmi-fill.high   { background: linear-gradient(to right, #003f5c, #0077b6); width: 100%; }
-.ndmi-fill.medium { background: linear-gradient(to right, #0077b6, #00b4d8); width: 70%; }
-.ndmi-fill.low    { background: linear-gradient(to right, #90e0ef, #caf0f8); width: 30%; }
-
-.ndmi-label {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.58rem;
-  color: var(--dry);
-  width: 80px;
-  text-align: right;
-}
-
-/* sink highlight */
-.sink-box {
-  background: linear-gradient(135deg, rgba(59,200,192,0.08), rgba(42,66,48,0.3));
-  border: 1px solid rgba(59,200,192,0.25);
-  border-radius: 4px;
-  padding: 32px;
-  margin: 48px 0;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 24px;
-  align-items: start;
-}
-
-.sink-icon {
-  font-size: 2.5rem;
-  line-height: 1;
-}
-
-.sink-heading {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: var(--aqua);
-  margin-bottom: 10px;
-}
-
-.sink-body {
-  font-size: 0.9rem;
-  line-height: 1.75;
-  opacity: 0.82;
-}
-
-.sink-body strong { color: var(--paper); }
-
-.moisture-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 16px;
-  font-family: 'Space Mono', monospace;
-  font-size: 0.68rem;
-}
-
-.moisture-table th {
-  text-align: left;
-  padding: 10px 14px;
-  background: rgba(42,66,48,0.4);
-  color: var(--dry);
-  letter-spacing: 1px;
-  font-weight: 700;
-  border-bottom: 1px solid rgba(59,200,192,0.15);
-}
-
-.moisture-table td {
-  padding: 10px 14px;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  color: var(--cream);
-  vertical-align: top;
-}
-
-.moisture-table tr:last-child td { border-bottom: none; }
-.moisture-table tr:hover td { background: rgba(42,66,48,0.2); }
-
-.dot-dark { color: #0077b6; }
-.dot-fade { color: #90e0ef; }
-.dot-light { color: var(--dry); }
-
-/* ─── VISION SECTION ─── */
-#vision {
-  background: linear-gradient(160deg, var(--deep) 0%, #0c1e10 100%);
-}
-
-.vision-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2px;
-  margin-bottom: 60px;
-  border: 1px solid rgba(122,173,124,0.15);
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.crop-card {
-  background: rgba(28,46,30,0.25);
-  padding: 28px 26px;
-  transition: background 0.25s;
-  border-right: 1px solid rgba(122,173,124,0.08);
-}
-
-.crop-card:hover { background: rgba(42,66,48,0.45); }
-
-.crop-tag {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.58rem;
-  letter-spacing: 2px;
-  color: var(--sage);
-  text-transform: uppercase;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.crop-harvest {
-  color: var(--amber);
-}
-
-.crop-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--paper);
-  margin-bottom: 6px;
-}
-
-.crop-zone {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.63rem;
-  color: var(--aqua);
-  margin-bottom: 12px;
-}
-
-.crop-role {
-  font-size: 0.82rem;
-  line-height: 1.6;
-  color: var(--cream);
-  opacity: 0.75;
-}
-
-.crop-qty {
-  margin-top: 14px;
-  font-family: 'Space Mono', monospace;
-  font-size: 0.62rem;
-  color: var(--amber);
-  background: rgba(212,162,78,0.1);
-  display: inline-block;
-  padding: 4px 10px;
-  border-radius: 2px;
-}
-
-/* aquaculture spotlight */
-.aqua-spotlight {
-  background: linear-gradient(135deg, rgba(0,60,75,0.4), rgba(9,20,16,0.6));
-  border: 1px solid rgba(59,200,192,0.3);
-  border-radius: 4px;
-  padding: 48px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 48px;
-  align-items: center;
-}
-
-.aqua-big-num {
-  font-family: 'Playfair Display', serif;
-  font-size: 4.5rem;
-  font-weight: 900;
-  color: var(--aqua);
-  line-height: 1;
-  margin-bottom: 6px;
-}
-
-.aqua-unit {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.7rem;
-  color: var(--sky);
-  letter-spacing: 2px;
-  margin-bottom: 20px;
-}
-
-.aqua-body {
-  font-size: 0.92rem;
-  line-height: 1.75;
-  opacity: 0.82;
-}
-
-/* ─── FOOTER ─── */
-footer {
-  background: var(--deep);
-  border-top: 1px solid rgba(59,200,192,0.1);
-  padding: 60px 48px 40px;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 40px;
-  align-items: start;
-  max-width: 100%;
-}
-
-.footer-brand {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: var(--paper);
-  margin-bottom: 10px;
-}
-
-.footer-desc {
-  font-size: 0.85rem;
-  line-height: 1.7;
-  color: var(--dry);
-  max-width: 420px;
-}
-
-.footer-meta {
-  text-align: right;
-}
-
-.footer-coord {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.7rem;
-  color: var(--aqua);
-  margin-bottom: 8px;
-}
-
-.footer-date {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.62rem;
-  color: var(--dry);
-  opacity: 0.6;
-}
-
-.footer-links {
-  display: flex;
-  gap: 16px;
-  margin-top: 20px;
-}
-
-.footer-links a {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.62rem;
-  color: var(--clay);
-  text-decoration: none;
-  border-bottom: 1px solid rgba(194,106,45,0.4);
-  padding-bottom: 1px;
-  letter-spacing: 1px;
-  transition: color 0.3s;
-}
-
-.footer-links a:hover { color: var(--amber); }
-
-/* ─── REVEAL ANIMATIONS ─── */
-.reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ─── RESPONSIVE ─── */
-@media (max-width: 900px) {
-  nav { padding: 16px 24px; }
-  .nav-links { display: none; }
-  #hero { padding: 80px 24px 60px; }
-  .hero-orb { display: none; }
-  .section-inner { padding: 0 24px; }
-  .two-col { grid-template-columns: 1fr; }
-  .aqua-spotlight { grid-template-columns: 1fr; }
-  footer { grid-template-columns: 1fr; }
-  .footer-meta { text-align: left; }
-}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Rustic Garden — Kavutiri, Embu-Kenya</title>
+  <meta name="description" content="Land • Water • Observation — a minimal environmental interface.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Rustic Garden — Kavutiri">
+  <meta property="og:description" content="Field observation of land and atmospheric patterns">
+  <meta property="og:image" content="assets/radar.png">
+  <meta property="og:type" content="website">
+
+  <style>
+    :root {
+      --bg: #0b0f12;
+      --text: #e6eeee;
+      --muted: #7e9498;
+      --accent: #6ee7d8;
+      --line: rgba(255,255,255,0.05);
+    }
+
+    /* 🌙 Automatic night refinement (no JS) */
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f7fbfb;
+        --text: #0e1a1a;
+        --muted: #5f7a7d;
+        --line: rgba(0,0,0,0.06);
+      }
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      letter-spacing: 0.2px;
+    }
+
+    main {
+      max-width: 760px;
+      margin: 80px auto;
+      padding: 0 18px;
+    }
+
+    header {
+      margin-bottom: 60px;
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 500;
+      margin: 0;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 6px;
+    }
+
+    section {
+      margin-top: 48px;
+    }
+
+    h2 {
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    p {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .frame {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-top: 14px;
+    }
+
+    img {
+      width: 100%;
+      display: block;
+    }
+
+    .actions {
+      margin-top: 14px;
+    }
+
+    .btn {
+      font-size: 0.8rem;
+      text-decoration: none;
+      color: var(--text);
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 2px;
+    }
+
+    .btn:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    iframe {
+      width: 100%;
+      height: 380px;
+      border: none;
+      margin-top: 12px;
+    }
+
+    footer {
+      margin-top: 80px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- NAV -->
-<nav>
-  <div class="nav-brand">Rustic Garden</div>
-  <ul class="nav-links">
-    <li><a href="#data">Groundwater</a></li>
-    <li><a href="#underground">The Aquifer</a></li>
-    <li><a href="#satellite">Satellite Data</a></li>
-    <li><a href="#vision">Vision</a></li>
-  </ul>
-</nav>
+<main>
 
-<!-- HERO -->
-<section id="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-grid"></div>
+  <header>
+    <h1>Rustic Garden — Kavutiri</h1>
+    <div class="subtitle">Land • Water • Observation</div>
+  </header>
 
-  <div class="hero-content">
-    <div class="hero-tag">Field Research Station · Embu County, Kenya</div>
-    <h1 class="hero-title">Rustic<br><em>Garden</em></h1>
-    <div class="hero-subtitle">Kavutiri · Embu County, Kenya</div>
-    <p class="hero-desc">
-      A living research station where agroecology, seed sovereignty, and
-      living-systems science meet the land. Every observation here is
-      grounded in the physical point from which field science, ecological
-      experimentation, and community cultivation practices emerge.
+  <!-- 🌍 Radar -->
+  <section>
+    <h2>Atmosphere</h2>
+    <p>Wind movement and weather structure.</p>
+
+    <div class="frame">
+      <img src="assets/radar.png" alt="Radar snapshot">
+    </div>
+
+    <div class="actions">
+      <a class="btn" href="#" onclick="loadRadar(); return false;">
+        View live
+      </a>
+    </div>
+
+    <div id="radar"></div>
+  </section>
+
+  <!-- 📍 Map -->
+  <section>
+    <h2>Ground</h2>
+    <p>Nyaga Garden — spatial reference (WGS84).</p>
+
+    <div class="frame">
+      <img src="assets/map.png" alt="Garden map">
+    </div>
+
+    <div class="actions">
+      <a class="btn" href="assets/Nyaga_Garden_map.kml">
+        Download KML
+      </a>
+    </div>
+  </section>
+
+  <!-- 🌿 Notes -->
+  <section>
+    <h2>Notes</h2>
+    <p>
+      Observe patterns.  
+      Track moisture.  
+      Let the system reveal itself.
     </p>
-    <div class="hero-coords">
-      <div class="coord-box">1°17'12.0"S &nbsp;36°44'03.9"E</div>
-      <div class="map-links">
-        <a class="map-link" href="https://www.openstreetmap.org/#map=16/-1.286666/36.734423" target="_blank">↗ OpenStreetMap</a>
-        <a class="map-link" href="https://maps.google.com/?q=-1.286666,36.734423" target="_blank">↗ Google Maps</a>
-      </div>
-    </div>
-  </div>
+  </section>
 
-  <div class="hero-orb">
-    <div class="orb-ring"></div>
-    <div class="orb-ring"></div>
-    <div class="orb-ring"></div>
-    <div class="orb-core">
-      <div class="orb-dot"></div>
-    </div>
-    <div class="orb-label">WGS84 · EPSG:4326</div>
-  </div>
+  <footer>
+    Minimal interface · No tracking · No noise
+  </footer>
 
-  <div class="scroll-hint">
-    <span>Scroll to explore</span>
-    <div class="scroll-arrow"></div>
-  </div>
-</section>
-
-<!-- DIVIDER -->
-<div class="divider"></div>
-
-<!-- DATA SECTION -->
-<section id="data">
-  <div class="section-inner">
-    <div class="section-tag reveal" style="color: var(--aqua)">Document 01 — Technical Data</div>
-    <h2 class="section-title reveal">Kwa Nyuki<br><em>Groundwater Data</em></h2>
-    <p class="lead reveal">
-      The Nairobi Aquifer System (NAS) underlies Nairobi and surrounding areas including
-      Kwa Nyuki. It has experienced serious depletion pressures since the 1950s, documented
-      through national hydrogeological surveys, NASA satellite data, and UPGro research.
-    </p>
-
-    <div class="stats-grid reveal">
-      <div class="stat-card">
-        <div class="stat-label">Net Storage Loss Since 1950</div>
-        <div class="stat-value">1.5B</div>
-        <div class="stat-unit">m³ of groundwater depleted</div>
-        <div class="stat-note">One hydrogeological study of the NAS reports this net loss — equivalent to hundreds of thousands of Olympic swimming pools.</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Annual Recharge — Nairobi Aquifer</div>
-        <div class="stat-value">73mm</div>
-        <div class="stat-unit">per year average recharge</div>
-        <div class="stat-note">Approximately 9.7% of annual rainfall reaches the aquifer. High urbanisation severely limits infiltration.</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Annual Abstraction (NAS, 2019)</div>
-        <div class="stat-value">72.4M</div>
-        <div class="stat-unit">m³/yr pumped for ~6M people</div>
-        <div class="stat-note">Over 7,000 wells draw water across Nairobi. Extraction significantly exceeds annual recharge.</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Projected Water-Level Drop by 2030</div>
-        <div class="stat-value">~14m</div>
-        <div class="stat-unit">decline if trends continue</div>
-        <div class="stat-note">Models warn of a ~76 m drop by 2063 if current abstraction rates persist unchecked.</div>
-      </div>
-    </div>
-
-    <div class="depletion-section reveal">
-      <div class="depletion-title">▸ Recharge vs Abstraction — Nairobi Aquifer System</div>
-
-      <div class="depletion-label">
-        <span>Annual Recharge</span>
-        <span style="color:var(--sage)">~9% of precipitation</span>
-      </div>
-      <div class="bar-wrap"><div class="bar-fill bar-recharge"></div></div>
-
-      <div class="depletion-label">
-        <span>Annual Pumping (2019)</span>
-        <span style="color:var(--clay)">72.4 × 10⁶ m³/yr</span>
-      </div>
-      <div class="bar-wrap"><div class="bar-fill bar-pump"></div></div>
-
-      <div class="depletion-label">
-        <span>Cumulative Storage Depletion (1950–present)</span>
-        <span style="color:var(--sky)">1.5 × 10⁹ m³</span>
-      </div>
-      <div class="bar-wrap"><div class="bar-fill bar-depletion"></div></div>
-
-      <div class="bar-legend">
-        <span class="legend-item"><span class="legend-dot" style="background:var(--sage)"></span>Recharge</span>
-        <span class="legend-item"><span class="legend-dot" style="background:var(--clay)"></span>Abstraction</span>
-        <span class="legend-item"><span class="legend-dot" style="background:var(--sky)"></span>Cumulative depletion</span>
-      </div>
-    </div>
-
-    <div class="callout reveal">
-      <div class="callout-title">▸ Kenya National Context</div>
-      <p>Kenya's safe annual recharge (sustainable yield) is estimated at ~193 × 10⁶ m³/yr, roughly 8–9% of total precipitation. FAO 2022 data record ~0.53 km³/yr in total national groundwater withdrawal — a figure that highlights the scale of extraction relative to what the land can safely replenish.</p>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- UNDERGROUND SECTION -->
-<section id="underground">
-  <div class="section-inner">
-    <div class="section-tag reveal" style="color: var(--sage)">Document 02 — Plain Language Guide</div>
-    <h2 class="section-title reveal">Underground Water<br><em>Beneath Kwa Nyuki</em></h2>
-
-    <div class="two-col">
-      <div>
-        <div class="sponge-diagram reveal">
-          <div style="font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--dry);letter-spacing:2px;margin-bottom:16px;text-transform:uppercase;">Soil Profile — Schematic</div>
-
-          <div class="layer layer-sky">
-            <span class="layer-icon">🌧</span>
-            <span>Atmosphere / Rainfall</span>
-            <span class="layer-label">~1,000mm/yr</span>
-          </div>
-          <div class="layer layer-surface">
-            <span class="layer-icon">🏘</span>
-            <span>Urban Surface</span>
-            <span class="layer-label">High runoff</span>
-          </div>
-          <div class="layer layer-soil">
-            <span class="layer-icon">🌱</span>
-            <span>Topsoil Zone</span>
-            <span class="layer-label">5% infiltration</span>
-          </div>
-          <div class="layer layer-rock">
-            <span class="layer-icon">🪨</span>
-            <span>Unsaturated Rock</span>
-            <span class="layer-label">Slow percolation</span>
-          </div>
-
-          <div style="font-family:'Space Mono',monospace;font-size:0.58rem;color:var(--dry);letter-spacing:1px;margin:14px 0 4px;display:flex;justify-content:space-between;">
-            <span>Water Table Level</span>
-            <span style="color:var(--clay)">↓ ~6 m/decade decline</span>
-          </div>
-          <div class="water-level-bar">
-            <div class="water-level-fill" style="width:35%"></div>
-          </div>
-
-          <div class="layer layer-aquifer">
-            <span class="layer-icon">💧</span>
-            <span>Nairobi Aquifer System</span>
-            <span class="layer-label">Heavily exploited</span>
-          </div>
-          <div class="layer layer-bedrock" style="margin-top:3px;">
-            <span class="layer-icon">⬛</span>
-            <span>Basement Bedrock</span>
-            <span class="layer-label">Impermeable</span>
-          </div>
-
-          <div class="drop-indicator">
-            <div class="drop-number">4m</div>
-            <div class="drop-text">Average water-level drop<br>under Nairobi since 1950</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="prose-block reveal">
-        <p>
-          Under the feet of Kwa Nyuki residents there is a vast amount of water stored in
-          the soil and rocks. Scientists estimate that <strong>about 1.5 billion cubic metres</strong>
-          of water has been removed from beneath Nairobi since the 1950s — like hundreds
-          of thousands of large swimming pools of water.
-        </p>
-        <p>
-          Think of the ground as a giant sponge or underground lake. Every year, rain helps
-          refill that sponge a little. Nairobi receives roughly <strong>1,000 mm of rainfall
-          per year</strong>, but only about <strong>5% of that</strong> soaks down to reach the
-          underground water. That means roughly 50 litres per square metre of ground
-          each year — approximately 50 one-litre bottles of water per square metre.
-        </p>
-        <p>
-          Meanwhile, thousands of wells pump water out of the ground every day.
-          Over <strong>7,000 wells</strong> supply groundwater across the city, contributing
-          roughly <strong>one-fifth of Nairobi's water supply</strong>. Because pumping
-          greatly exceeds recharge, the water level underground has been
-          falling — measured at about <strong>half a metre per year</strong> in some locations.
-        </p>
-        <p>
-          It is like drinking from a large water jug faster than it can be refilled.
-          If this continues, the jug — our underground water — gets emptier and emptier.
-        </p>
-
-        <div class="callout">
-          <div class="callout-title">▸ What Can Help</div>
-          <p>Careful extraction limits, tree planting to increase infiltration, and
-          building small water-retention features in the landscape can slow — and
-          eventually reverse — the decline. Every extra litre that soaks into the
-          ground instead of running off adds to the community's long-term water security.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- SATELLITE SECTION -->
-<section id="satellite">
-  <div class="section-inner">
-    <div class="section-tag reveal" style="color: var(--sky)">Document 03 — Satellite Analysis · Masii, Machakos</div>
-    <h2 class="section-title reveal">Where Is<br><em>The Water?</em></h2>
-    <p class="lead reveal">
-      A field investigation using Sentinel-2 Normalized Difference Moisture Index (NDMI)
-      satellite imagery, conducted by Douglas Gitari. The satellite is a witness that
-      cannot lie — it only sees water where water truly exists.
-    </p>
-
-    <div class="sink-box reveal">
-      <div class="sink-icon">🛰</div>
-      <div>
-        <div class="sink-heading">The Topographic Sink — 86 m East of the Homestead</div>
-        <p class="sink-body">
-          While the rest of the farm dries within <strong>3–6 days</strong> of rainfall,
-          one zone held detectable moisture for <strong>8–9 days</strong>, with traces
-          lingering until January 17th. This anomalous persistence is not random —
-          it is structurally controlled. Water flows laterally beneath the surface from
-          higher elevations and pools in this topographic low. A subsurface
-          <strong>hardpan or clay lens</strong> acts as a natural liner, refusing to let
-          water sink beyond root depth. In Machakos, evaporation should clear surface
-          water in under a day — yet here, one day stretched to nine.
-          <strong>That is a 20-fold blessing by hydrological standards.</strong>
-        </p>
-      </div>
-    </div>
-
-    <div class="two-col reveal">
-      <div>
-        <div class="timeline">
-          <div class="timeline-item">
-            <div class="timeline-date">4 JANUARY 2026 — BASELINE</div>
-            <div class="timeline-title">Natural Colour Reference</div>
-            <p class="timeline-body">Surface conditions show typical semi-arid landscape. The natural-colour composite provides baseline visual context of land cover and terrain before significant moisture redistribution.</p>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-date">4–5 JANUARY 2026</div>
-            <div class="timeline-title">Post-Rainfall Moisture Peak</div>
-            <p class="timeline-body">Dark-blue NDMI zones cover a large portion of the farm. Both sensors (cross-validated) confirm the moisture pattern is real, not a satellite artifact.</p>
-            <div class="ndmi-visual">
-              <span style="font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--dry);width:70px;">NDMI HIGH</span>
-              <div class="ndmi-bar-wrap"><div class="ndmi-fill high"></div></div>
-              <div class="ndmi-label">86m EAST</div>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-date">7 JANUARY 2026</div>
-            <div class="timeline-title">Moisture Reduction with Spatial Persistence</div>
-            <p class="timeline-body">Overall moisture has declined markedly across the farm. The dark-blue zone at 86 m east, while reduced in extent, remains spatially consistent — drying is non-uniform.</p>
-            <div class="ndmi-visual">
-              <span style="font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--dry);width:70px;">NDMI MED</span>
-              <div class="ndmi-bar-wrap"><div class="ndmi-fill medium"></div></div>
-              <div class="ndmi-label">PERSISTENT</div>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-date">17 JANUARY 2026</div>
-            <div class="timeline-title">Complete Surface Drying / Residual Subsurface Moisture</div>
-            <p class="timeline-body">Surface-level moisture zones have fully dissipated. Yet NDMI remains elevated at the same localised area — subsurface moisture persists while everything around it is dry.</p>
-            <div class="ndmi-visual">
-              <span style="font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--dry);width:70px;">NDMI LOW</span>
-              <div class="ndmi-bar-wrap"><div class="ndmi-fill low"></div></div>
-              <div class="ndmi-label">SUBSURFACE</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="reveal">
-        <div style="font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--dry);letter-spacing:2px;text-transform:uppercase;margin-bottom:20px;">NDMI Visual Pattern Key</div>
-
-        <table class="moisture-table">
-          <thead>
-            <tr>
-              <th>SIGNAL</th>
-              <th>INTERPRETATION</th>
-              <th>ACTION</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><span class="dot-dark">⬛</span> Dark &amp; persistent</td>
-              <td>Reliable moisture zone</td>
-              <td>Wells, water-loving crops</td>
-            </tr>
-            <tr>
-              <td><span class="dot-fade">◼</span> Dark then fades</td>
-              <td>Transient surface moisture</td>
-              <td>Avoid permanent structures</td>
-            </tr>
-            <tr>
-              <td><span class="dot-light">▪</span> Patchy dark</td>
-              <td>Vegetation-driven signal</td>
-              <td>Interpret with land cover</td>
-            </tr>
-            <tr>
-              <td>☐ Uniform light</td>
-              <td>Rapid drainage</td>
-              <td>Dryland farming only</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div class="callout" style="margin-top:28px;">
-          <div class="callout-title">▸ Hydrological Interpretation</div>
-          <p>Persistent dark-toned areas indicate moisture retention controlled by local soil and topographic conditions. If the same locations remain dark across multiple satellite passes, moisture is <strong>structurally controlled, not rainfall-driven</strong>. Likely causes: subsurface flow paths, soil texture contrasts, and shallow groundwater influence.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- VISION SECTION -->
-<section id="vision">
-  <div class="section-inner">
-    <div class="section-tag reveal" style="color: var(--amber)">Document 03 — Agronomic Vision</div>
-    <h2 class="section-title reveal">The Farm<br><em>Systems Plan</em></h2>
-    <p class="lead reveal">
-      Armed with satellite intelligence, the 86-metre eastern zone becomes the beating
-      heart of a regenerative farm system — from aquaculture pond to medicinal herb
-      production and legacy mango orchard.
-    </p>
-
-    <div class="aqua-spotlight reveal">
-      <div>
-        <div class="aqua-big-num">700K</div>
-        <div class="aqua-unit">Litres / Year — Harvestable Rainfall</div>
-        <p class="aqua-body">
-          With a one-hectare catchment area and Machakos's typical rainfall,
-          this land is capable of harvesting approximately 700,000 litres of
-          water annually. By deepening the depression at the 86 m mark,
-          water moves from the surface — where evaporation steals it — into
-          a deep, protected volume.
-        </p>
-        <p class="aqua-body" style="margin-top:16px;">
-          A professional pond liner or heavily compacted clay core ensures that
-          Tilapia or Catfish swim safely through the scorching heat of February
-          and August. The soil already resists drainage — engineering merely
-          amplifies what nature placed there.
-        </p>
-      </div>
-      <div>
-        <div style="font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--aqua);letter-spacing:2px;text-transform:uppercase;margin-bottom:20px;">86m East Zone — Cross Section</div>
-        <div style="position:relative;height:200px;background:rgba(0,60,75,0.2);border:1px solid rgba(59,200,192,0.2);border-radius:3px;overflow:hidden;padding:16px;">
-          <!-- visual layers -->
-          <div style="position:absolute;bottom:0;left:0;right:0;height:55%;background:linear-gradient(to top,rgba(0,60,75,0.6),transparent);"></div>
-          <div style="position:absolute;bottom:0;left:20%;right:20%;height:30%;background:rgba(59,200,192,0.25);border-top:2px solid var(--aqua);border-radius:4px 4px 0 0;"></div>
-          <div style="position:absolute;bottom:28%;left:33%;right:33%;height:8%;background:rgba(59,200,192,0.5);border-radius:2px;box-shadow:0 0 20px var(--aqua);"></div>
-          <div style="position:absolute;top:14px;left:50%;transform:translateX(-50%);font-family:'Space Mono',monospace;font-size:0.58rem;color:var(--sky);letter-spacing:1px;text-align:center;">CLAY LENS ↓ HARDPAN</div>
-          <div style="position:absolute;bottom:36%;left:50%;transform:translateX(-50%);font-family:'Space Mono',monospace;font-size:0.58rem;color:var(--aqua);letter-spacing:1px;white-space:nowrap;">Subsurface water table</div>
-          <div style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--dry);letter-spacing:1px;">Proposed Pond Excavation</div>
-        </div>
-      </div>
-    </div>
-
-    <div style="height:48px;"></div>
-
-    <div class="vision-grid reveal">
-      <!-- Moringa -->
-      <div class="crop-card">
-        <div class="crop-tag"><span>Buffer Zone · 75–95m</span><span class="crop-harvest">3 months</span></div>
-        <div class="crop-name">Moringa</div>
-        <div class="crop-zone">🌿 Living Fence Placement</div>
-        <div class="crop-role">Weekly cash flow via high-demand leaf powder for local markets and relief programmes.</div>
-        <div class="crop-qty">Min: 50 trees</div>
-      </div>
-      <!-- Tulsi -->
-      <div class="crop-card">
-        <div class="crop-tag"><span>Raised Beds · 80–90m</span><span class="crop-harvest">3 months</span></div>
-        <div class="crop-name">Tulsi / Basil</div>
-        <div class="crop-zone">🌱 Fresh Herb Market Entry</div>
-        <div class="crop-role">Fresh herbs for Mama Mboga vendors and herbalist tincture production.</div>
-        <div class="crop-qty">Min: 200 seedlings</div>
-      </div>
-      <!-- Stinging Nettle -->
-      <div class="crop-card">
-        <div class="crop-tag"><span>Core Zone · 86m Wet Spot</span><span class="crop-harvest">3 months</span></div>
-        <div class="crop-name">Stinging Nettle</div>
-        <div class="crop-zone">💧 High-Moisture Placement</div>
-        <div class="crop-role">Specialty health tea for RA/Gout — niche health shop and export sales.</div>
-        <div class="crop-qty">Min: ⅛ acre patch</div>
-      </div>
-      <!-- Ginger -->
-      <div class="crop-card">
-        <div class="crop-tag"><span>Core Edge · 82–88m</span><span class="crop-harvest">6 months</span></div>
-        <div class="crop-name">Ginger</div>
-        <div class="crop-zone">🫚 Mid-Term Savings Crop</div>
-        <div class="crop-role">Bulk sale to spice exporters. Powerful anti-inflammatory with strong market demand.</div>
-        <div class="crop-qty">Min: 50kg seed rhizomes</div>
-      </div>
-      <!-- Chili -->
-      <div class="crop-card">
-        <div class="crop-tag"><span>Dry Uplands · Beyond 100m</span><span class="crop-harvest">6 months</span></div>
-        <div class="crop-name">Bird's Eye Chili</div>
-        <div class="crop-zone">🌶 Export Potential</div>
-        <div class="crop-role">Low water requirement. Dried for long-term storage and export to spice markets.</div>
-        <div class="crop-qty">Min: 500 plants</div>
-      </div>
-      <!-- Turmeric -->
-      <div class="crop-card">
-        <div class="crop-tag"><span>Exact 86m Centre</span><span class="crop-harvest">Annual</span></div>
-        <div class="crop-name">Turmeric</div>
-        <div class="crop-zone">🟡 Capital Asset — "The Gold"</div>
-        <div class="crop-role">Large annual payout. Insurance crop for major farm expenses with global demand.</div>
-        <div class="crop-qty">Min: 100kg seed rhizomes</div>
-      </div>
-      <!-- Tilapia -->
-      <div class="crop-card">
-        <div class="crop-tag"><span>86m Pond Depression</span><span class="crop-harvest">6–8 months</span></div>
-        <div class="crop-name">Tilapia / Catfish</div>
-        <div class="crop-zone">🐟 Aquaculture Nutrient Loop</div>
-        <div class="crop-role">Protein source for the homestead. Fertigated pond water nourishes surrounding herbs.</div>
-        <div class="crop-qty">500 fingerlings / 100m³ pond</div>
-      </div>
-      <!-- Mangoes -->
-      <div class="crop-card">
-        <div class="crop-tag"><span>Deep Roots · 60–120m</span><span class="crop-harvest">Annual</span></div>
-        <div class="crop-name">Mangoes</div>
-        <div class="crop-zone">🥭 Legacy Anchor</div>
-        <div class="crop-role">Long-term land value. Bulk seasonal profit from Kent/Apple varieties grafted for quality.</div>
-        <div class="crop-qty">Min: 20 grafted trees</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div>
-    <div class="footer-brand">Rustic Garden</div>
-    <p class="footer-desc">
-      A landscape dedicated to agroecology, seed sovereignty, and living-systems research.
-      Field observations, ecological experimentation, and community-centred cultivation
-      practices grounded in this physical coordinate.
-    </p>
-    <div class="footer-links">
-      <a href="https://www.openstreetmap.org/#map=16/-1.286666/36.734423" target="_blank">↗ OpenStreetMap</a>
-      <a href="https://maps.google.com/?q=-1.286666,36.734423" target="_blank">↗ Google Maps</a>
-    </div>
-  </div>
-  <div class="footer-meta">
-    <div class="footer-coord">1°17'12.0"S 36°44'03.9"E</div>
-    <div class="footer-coord" style="color:var(--dry);font-size:0.62rem;">CRS: WGS84 · EPSG:4326</div>
-    <div class="footer-date">Field Log Reference — 15 March 2026</div>
-  </div>
-</footer>
+</main>
 
 <script>
-// Intersection observer for reveal animations
-const reveals = document.querySelectorAll('.reveal');
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => {
-        entry.target.classList.add('visible');
-      }, 80);
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.12 });
+function loadRadar() {
+  const el = document.getElementById("radar");
+  if (el.innerHTML) return;
 
-reveals.forEach(el => observer.observe(el));
-
-// Stagger sibling reveals
-document.querySelectorAll('.stats-grid, .vision-grid').forEach(grid => {
-  const cards = grid.querySelectorAll('.stat-card, .crop-card');
-  cards.forEach((card, i) => {
-    card.style.transitionDelay = `${i * 60}ms`;
-  });
-});
+  el.innerHTML = `
+    <iframe src="https://zoom.earth/maps/radar/#view=0.6,37.8,4z/place=-1.285398325245881,36.73422197843284/overlays=wind,crosshair"></iframe>
+  `;
+}
 </script>
+
 </body>
 </html>
