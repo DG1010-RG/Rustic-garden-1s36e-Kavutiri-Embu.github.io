@@ -3,17 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <title>Rustic Garden — Kavutiri, Embu-Kenya</title>
   <meta name="description" content="Land, Water, Observation. A structured interface for agricultural research, functional health, and community restoration.">
-
   <style>
     :root {
       --bg: #0b0f12;
       --text: #e6eeee;
       --muted: #7e9498;
-      --accent-green: #689368; /* Rosemary Green */
-      --accent-purple: #9b7ede; /* Floral Purple */
+      --accent-green: #689368;
+      --accent-purple: #9b7ede;
       --line: rgba(255,255,255,0.05);
       --nav-bg: rgba(11, 15, 18, 0.95);
     }
@@ -33,7 +31,7 @@
     body {
       margin: 0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      background: var(--bg);
+      background: linear-gradient(135deg, var(--bg) 0%, #0f1518 100%);
       color: var(--text);
       line-height: 1.65;
       letter-spacing: 0.2px;
@@ -53,6 +51,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.3);
     }
 
     .nav-links {
@@ -66,82 +65,177 @@
       text-decoration: none;
       font-size: 0.85rem;
       font-weight: 500;
+      transition: all 0.3s ease;
     }
 
     .nav-links a:hover {
       color: var(--accent-green);
+      transform: translateY(-2px);
     }
 
     .logo {
       font-weight: 600;
       color: var(--accent-purple);
       font-size: 1.1rem;
+      cursor: pointer;
     }
 
     main {
-      max-width: 800px;
+      max-width: 900px;
       margin: 60px auto;
       padding: 0 18px;
     }
 
     header {
-      margin-bottom: 60px;
+      margin-bottom: 80px;
       text-align: center;
+      position: relative;
+      min-height: 500px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .rosemary-container {
+      position: relative;
+      width: 300px;
+      height: 400px;
+      margin: 0 auto 40px;
+      perspective: 1000px;
+    }
+
+    .rosemary-svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 20px 50px rgba(104, 147, 104, 0.2));
+    }
+
+    .bee {
+      position: absolute;
+      width: 50px;
+      height: 40px;
+      animation: buzz 4s infinite;
+    }
+
+    @keyframes buzz {
+      0% { transform: translate(80px, 80px) rotate(0deg); }
+      25% { transform: translate(120px, 120px) rotate(-15deg); }
+      50% { transform: translate(100px, 180px) rotate(15deg); }
+      75% { transform: translate(60px, 140px) rotate(-10deg); }
+      100% { transform: translate(80px, 80px) rotate(0deg); }
     }
 
     h1 {
-      font-size: 2.2rem;
-      font-weight: 500;
-      margin: 0;
+      font-size: 2.8rem;
+      font-weight: 600;
+      margin: 20px 0 10px 0;
       color: var(--text);
+      letter-spacing: -1px;
     }
 
     .subtitle {
       color: var(--accent-green);
-      font-size: 1rem;
-      margin-top: 6px;
+      font-size: 1.1rem;
+      margin: 10px 0 20px 0;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.15em;
+      font-weight: 500;
+    }
+
+    .tagline {
+      max-width: 600px;
+      margin: 0 auto 30px;
+      font-size: 1.15rem;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
     }
 
     section {
-      margin-top: 60px;
-      padding-top: 20px;
-      border-top: 1px solid var(--line);
+      margin-top: 80px;
+      padding: 40px 30px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(104, 147, 104, 0.05) 0%, rgba(155, 126, 222, 0.05) 100%);
+      border: 1px solid var(--line);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    section:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 40px rgba(104, 147, 104, 0.1);
     }
 
     h2 {
-      font-size: 1.2rem;
-      font-weight: 500;
+      font-size: 1.5rem;
+      font-weight: 600;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--accent-purple);
-      margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--accent-green), var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 20px;
     }
 
     h3 {
-      font-size: 1rem;
+      font-size: 1.1rem;
       color: var(--text);
-      margin-bottom: 8px;
+      margin-bottom: 12px;
+      font-weight: 600;
     }
 
     p {
       color: var(--muted);
       font-size: 0.95rem;
+      line-height: 1.8;
     }
 
     .grid-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-top: 20px;
+      gap: 24px;
+      margin-top: 30px;
+    }
+
+    @media (max-width: 768px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      .rosemary-container {
+        width: 250px;
+        height: 350px;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+      }
     }
 
     .frame {
       border: 1px solid var(--line);
-      border-radius: 6px;
-      padding: 20px;
-      background: rgba(0,0,0,0.02);
+      border-radius: 8px;
+      padding: 24px;
+      background: linear-gradient(135deg, rgba(155, 126, 222, 0.03), rgba(104, 147, 104, 0.03));
+      backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+    }
+
+    .frame:hover {
+      border-color: var(--accent-green);
+      background: linear-gradient(135deg, rgba(155, 126, 222, 0.08), rgba(104, 147, 104, 0.08));
     }
 
     .btn {
@@ -149,35 +243,68 @@
       font-size: 0.9rem;
       text-decoration: none;
       color: var(--bg);
-      background: var(--accent-green);
-      padding: 8px 16px;
-      border-radius: 4px;
-      font-weight: 500;
+      background: linear-gradient(135deg, var(--accent-green), #5a8050);
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-weight: 600;
       margin-top: 10px;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(104, 147, 104, 0.3);
     }
 
     .btn:hover {
-      opacity: 0.8;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 25px rgba(104, 147, 104, 0.4);
     }
 
     .btn-outline {
       background: transparent;
-      color: var(--text);
-      border: 1px solid var(--line);
+      color: var(--accent-purple);
+      border: 2px solid var(--accent-purple);
+      box-shadow: none;
+    }
+
+    .btn-outline:hover {
+      background: rgba(155, 126, 222, 0.1);
+      box-shadow: 0 4px 15px rgba(155, 126, 222, 0.2);
     }
 
     ul {
-      padding-left: 20px;
+      padding-left: 24px;
       color: var(--muted);
     }
 
+    ul li {
+      margin-bottom: 12px;
+      line-height: 1.8;
+    }
+
     footer {
-      margin-top: 80px;
-      padding: 40px 18px;
+      margin-top: 100px;
+      padding: 50px 18px;
       border-top: 1px solid var(--line);
       font-size: 0.85rem;
       color: var(--muted);
       text-align: center;
+      background: linear-gradient(180deg, transparent, rgba(104, 147, 104, 0.02));
+    }
+
+    .social-links a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.3s ease;
+      font-weight: 500;
+    }
+
+    .social-links a:hover {
+      color: var(--accent-green);
+    }
+
+    .emoji {
+      font-size: 1.3em;
+      margin-right: 8px;
     }
   </style>
 </head>
@@ -197,12 +324,74 @@
 
   <main>
     <header>
+      <div class="rosemary-container">
+        <svg class="rosemary-svg" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
+          <!-- Main stem -->
+          <path d="M 100 250 Q 95 180 100 100" stroke="#4a6d3a" stroke-width="4" fill="none" stroke-linecap="round"/>
+          
+          <!-- Left leaves -->
+          <ellipse cx="75" cy="230" rx="18" ry="35" fill="#5a8050" opacity="0.9" transform="rotate(-45 75 230)"/>
+          <ellipse cx="65" cy="190" rx="18" ry="35" fill="#6b9566" opacity="0.95" transform="rotate(-55 65 190)"/>
+          <ellipse cx="60" cy="150" rx="18" ry="35" fill="#5a8050" opacity="0.9" transform="rotate(-50 60 150)"/>
+          <ellipse cx="65" cy="110" rx="18" ry="35" fill="#6b9566" opacity="0.95" transform="rotate(-45 65 110)"/>
+          
+          <!-- Right leaves -->
+          <ellipse cx="125" cy="230" rx="18" ry="35" fill="#5a8050" opacity="0.9" transform="rotate(45 125 230)"/>
+          <ellipse cx="135" cy="190" rx="18" ry="35" fill="#7ba870" opacity="1" transform="rotate(55 135 190)"/>
+          <ellipse cx="140" cy="150" rx="18" ry="35" fill="#5a8050" opacity="0.9" transform="rotate(50 140 150)"/>
+          <ellipse cx="135" cy="110" rx="18" ry="35" fill="#7ba870" opacity="1" transform="rotate(45 135 110)"/>
+          
+          <!-- Flower blooms at top -->
+          <g id="flower">
+            <!-- Petal 1 -->
+            <ellipse cx="100" cy="60" rx="12" ry="20" fill="#9b7ede" opacity="0.95"/>
+            <!-- Petal 2 -->
+            <ellipse cx="115" cy="70" rx="12" ry="20" fill="#b396f0" opacity="0.9" transform="rotate(72 100 60)"/>
+            <!-- Petal 3 -->
+            <ellipse cx="110" cy="90" rx="12" ry="20" fill="#9b7ede" opacity="0.95" transform="rotate(144 100 60)"/>
+            <!-- Petal 4 -->
+            <ellipse cx="85" cy="90" rx="12" ry="20" fill="#b396f0" opacity="0.9" transform="rotate(216 100 60)"/>
+            <!-- Petal 5 -->
+            <ellipse cx="80" cy="70" rx="12" ry="20" fill="#9b7ede" opacity="0.95" transform="rotate(288 100 60)"/>
+            <!-- Center -->
+            <circle cx="100" cy="75" r="8" fill="#f4d35e"/>
+          </g>
+        </svg>
+        
+        <!-- Animated Bee -->
+        <svg class="bee" viewBox="0 0 50 40" xmlns="http://www.w3.org/2000/svg">
+          <!-- Body -->
+          <ellipse cx="25" cy="20" rx="12" ry="15" fill="#f4d35e"/>
+          <rect x="20" y="8" width="10" height="24" fill="#2c2c2c" rx="5"/>
+          
+          <!-- Stripes -->
+          <rect x="22" y="10" width="6" height="3" fill="#2c2c2c"/>
+          <rect x="22" y="16" width="6" height="3" fill="#2c2c2c"/>
+          <rect x="22" y="22" width="6" height="3" fill="#2c2c2c"/>
+          
+          <!-- Wings -->
+          <ellipse cx="15" cy="15" rx="8" ry="12" fill="#c5d9ff" opacity="0.7" transform="skewX(-20)"/>
+          <ellipse cx="35" cy="15" rx="8" ry="12" fill="#c5d9ff" opacity="0.7" transform="skewX(20)"/>
+          
+          <!-- Antennae -->
+          <path d="M 25 8 L 22 4" stroke="#2c2c2c" stroke-width="1" stroke-linecap="round"/>
+          <path d="M 25 8 L 28 4" stroke="#2c2c2c" stroke-width="1" stroke-linecap="round"/>
+          
+          <!-- Eyes -->
+          <circle cx="22" cy="18" r="1.5" fill="#000"/>
+          <circle cx="28" cy="18" r="1.5" fill="#000"/>
+        </svg>
+      </div>
+
       <h1>Rustic Garden Kavutiri</h1>
       <div class="subtitle">Land • Water • Observation</div>
-      <p style="margin-top: 20px; font-size: 1.1rem;">
+      <p class="tagline">
         Pioneering a sustainable, secure, and researched agricultural economy by 2050.
       </p>
-      <a href="#structure" class="btn">Join the Program</a>
+      <div class="cta-buttons">
+        <a href="#structure" class="btn">Join the Program</a>
+        <a href="#contact" class="btn btn-outline">Learn More</a>
+      </div>
     </header>
 
     <section id="about">
@@ -211,11 +400,11 @@
       
       <div class="grid-2">
         <div class="frame">
-          <h3>Field Events</h3>
+          <h3><span class="emoji">🚜</span>Field Events</h3>
           <p>We believe in movement and action. Follow our schedule for soil research sessions and community outreach programs.</p>
         </div>
         <div class="frame">
-          <h3>Research Programs</h3>
+          <h3><span class="emoji">🔬</span>Research Programs</h3>
           <p>Focusing on cognitive development, circular agriculture, and the manufacturing of essential oils and herbal extracts.</p>
         </div>
       </div>
@@ -226,19 +415,16 @@
       <p>Rooted in the fundamental rights of health and food security, we focus on structure and research.</p>
 
       <div class="frame">
-        <h3>🌿 Functional Health</h3>
+        <h3><span class="emoji">🌿</span>Functional Health</h3>
         <p>Integration of researched herbal medicine into standard care. We focus on the benefits of essential oils and tinctures through mass education and controlled manufacturing.</p>
 
-        <br>
-        <h3>🌾 Agricultural Economy 2050</h3>
+        <h3 style="margin-top: 24px;"><span class="emoji">🌾</span>Agricultural Economy 2050</h3>
         <p>Reducing national reliance on imports by conducting deep research into native crops and soil health. Agriculture is the foundation of a nation's independence.</p>
 
-        <br>
-        <h3>🛡️ Modernized Security</h3>
+        <h3 style="margin-top: 24px;"><span class="emoji">🛡️</span>Modernized Security</h3>
         <p>A move from intimidation to surveillance. We advocate for patrol structures using drones and modern technology to ensure community peace without fear.</p>
 
-        <br>
-        <h3>🎨 Cognitive Investment</h3>
+        <h3 style="margin-top: 24px;"><span class="emoji">����</span>Cognitive Investment</h3>
         <p>Establishing public Music and Art Centers. Investing in the cognitive capacities of children today ensures a better-built tomorrow.</p>
       </div>
     </section>
@@ -253,8 +439,10 @@
         <li><strong>Volunteers:</strong> Seeking coordinators, researchers, and digital advocates.</li>
       </ul>
       
-      <a href="#contact" class="btn">Apply to Volunteer</a>
-      <a href="#contact" class="btn btn-outline">Support the Program</a>
+      <div class="cta-buttons" style="margin-top: 30px;">
+        <a href="#contact" class="btn">Apply to Volunteer</a>
+        <a href="#contact" class="btn btn-outline">Support the Program</a>
+      </div>
     </section>
 
     <section id="faqs">
@@ -265,14 +453,14 @@
           <h3>Our Philosophy?</h3>
           <p>Rooted in observation and action. We believe structure is the antidote to the current worrisome state of healthcare and food security.</p>
           
-          <h3>What makes us different?</h3>
+          <h3 style="margin-top: 24px;">What makes us different?</h3>
           <p>We prioritize research over rhetoric. We track the moisture in the soil before we plant the seed of change.</p>
         </div>
         <div>
           <h3>The Symbol?</h3>
           <p>The Rosemary and Bee—representing the intersection of healing, nature, and the industrious spirit of the people.</p>
           
-          <h3>Location?</h3>
+          <h3 style="margin-top: 24px;">Location?</h3>
           <p>Rustic Garden — Kavutiri, Embu-Kenya.</p>
         </div>
       </div>
@@ -282,7 +470,7 @@
       <h2>Connect</h2>
       <p>Reach out to discuss movement, sponsorships, or managing the team.</p>
       
-      <div class="frame" style="text-align: center;">
+      <div class="frame" style="text-align: center; margin-top: 24px;">
         <p><strong>Email:</strong> info@rusticgarden.ke</p>
         <p><strong>WhatsApp / Call:</strong> +254 7XX XXX XXX</p>
       </div>
