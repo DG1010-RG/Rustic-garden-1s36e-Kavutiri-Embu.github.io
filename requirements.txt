@@ -1,3 +1,4 @@
-Flask==2.3.0
-python-dotenv==1.0.0
-Werkzeug==2.3.0
+# Rustic Garden — Azure Function App Dependencies
+# Deploy with: pip install -r requirements.txt
+
+azure-functions==1.21.3
