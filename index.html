@@ -3,41 +3,92 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Rustic Garden — Kavutiri, Embu-Kenya</title>
+  <title>Rustic Garden Kianjuki — Embu, Kenya</title>
 
-  <!-- ✅ GEO + SEO SCHEMA -->
+  <!-- SEO -->
+  <meta name="description" content="Rustic Garden Kianjuki is a soil-focused circular economy research and demonstration site in Embu, Kenya.">
+  <meta name="keywords" content="Rustic Garden, Embu, Kenya, soil productivity, circular economy, regenerative agriculture">
+  <meta name="author" content="Rustic Garden">
+
+  <!-- GEO + STRUCTURED DATA -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "ResearchOrganization",
-    "name": "Rustic Garden Kianjuki",
-    "url": "https://dg1010-rg.github.io/Rustic-garden-1s36e-Kavutiri-Embu.github.io/",
-    "email": "dougiemutua@gmail.com",
-    "telephone": "+254722704997",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Kianjuki",
-      "addressRegion": "Embu",
-      "postalCode": "60100",
-      "addressCountry": "KE"
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": -0.420250,
-      "longitude": 37.4999712
-    },
-    "sameAs": [
-      "https://www.bing.com/maps"
-    ],
-    "description": "Circular economy research site integrating aquaculture, organic coffee, and macadamia systems."
+    "@graph": [
+      {
+        "@type": "Place",
+        "@id": "https://dg1010-rg.github.io/Rustic-garden-1s36e-Kavutiri-Embu.github.io/#place",
+        "name": "Rustic Garden Kianjuki",
+        "description": "A soil-based circular economy research and demonstration site in Embu, Kenya.",
+        "url": "https://dg1010-rg.github.io/Rustic-garden-1s36e-Kavutiri-Embu.github.io/",
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -0.4200431,
+          "longitude": 37.4995256
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "444 Nyaga wa Douglas",
+          "addressLocality": "Embu",
+          "postalCode": "00600",
+          "addressCountry": "KE"
+        },
+        "hasMap": "https://www.openstreetmap.org/?mlat=-0.4200431&mlon=37.4995256#map=20/-0.4200431/37.4995256"
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://dg1010-rg.github.io/Rustic-garden-1s36e-Kavutiri-Embu.github.io/#org",
+        "name": "Rustic Garden",
+        "url": "https://dg1010-rg.github.io/Rustic-garden-1s36e-Kavutiri-Embu.github.io/",
+        "email": "dougiemutua@gmail.com",
+        "telephone": "+254722704997",
+        "areaServed": ["KE", "Global"]
+      },
+      {
+        "@type": "ResearchProject",
+        "@id": "https://dg1010-rg.github.io/Rustic-garden-1s36e-Kavutiri-Embu.github.io/#project",
+        "name": "Soil-Based Circular Economy Initiative",
+        "description": "A project exploring soil productivity as an economic asset and applying circular economy principles to local development.",
+        "location": {
+          "@id": "https://dg1010-rg.github.io/Rustic-garden-1s36e-Kavutiri-Embu.github.io/#place"
+        },
+        "provider": {
+          "@id": "https://dg1010-rg.github.io/Rustic-garden-1s36e-Kavutiri-Embu.github.io/#org"
+        }
+      }
+    ]
   }
   </script>
 
 </head>
 <body>
 
-  <h1>Rustic Garden Kianjuki</h1>
-  <p>Circular economy research site in Embu, Kenya.</p>
+  <main>
+    <h1>Rustic Garden Kianjuki</h1>
+    <p>Soil-based circular economy research site — Embu, Kenya.</p>
+
+    <!-- Backend hook (Azure / API integration point) -->
+    <section id="api-status">
+      <p id="status">Loading system status...</p>
+    </section>
+  </main>
+
+  <!-- Future Azure API integration -->
+  <script>
+    const API_URL = "https://rustic-garden-api.azurewebsites.net";
+
+    async function loadStatus() {
+      try {
+        const res = await fetch(`${API_URL}/time`);
+        const data = await res.json();
+        document.getElementById("status").innerText = `System online — ${data.time}`;
+      } catch (e) {
+        document.getElementById("status").innerText = "System offline";
+      }
+    }
+
+    loadStatus();
+  </script>
 
 </body>
 </html>
